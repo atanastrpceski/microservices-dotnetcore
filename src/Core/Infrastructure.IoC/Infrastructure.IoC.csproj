@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MicroRabbit.Infrastructure.Bus\Infrastructure.Bus.csproj" />
+    <ProjectReference Include="..\..\Microservices\Banking\Banking.Application\Banking.Application.csproj" />
+    <ProjectReference Include="..\..\Microservices\Banking\Banking.Data\Banking.Data.csproj" />
+    <ProjectReference Include="..\Infrastructure.Bus\Infrastructure.Bus.csproj" />
   </ItemGroup>
 
 </Project>
