@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1BA7DDD2-4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Core", "src\Core\Domain.Core\Domain.Core.csproj", "{B102F767-7B69-42B7-8B5B-2D764AF8566B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Bus", "src\Core\MicroRabbit.Infrastructure.Bus\Infrastructure.Bus.csproj", "{42F076BE-0A22-4EEF-AD6D-7FB93191028A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Bus", "src\Core\Infrastructure.Bus\Infrastructure.Bus.csproj", "{42F076BE-0A22-4EEF-AD6D-7FB93191028A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IoC", "src\Core\Infrastructure.IoC\Infrastructure.IoC.csproj", "{77DF226B-B02A-4321-8E4D-261D1F07FA21}"
 EndProject
