@@ -1,9 +1,6 @@
-﻿using Domain.Core.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.Core.Events.Base;
 
-namespace Banking.Domain.Events
+namespace Domain.Core.Events.Banking.Base
 {
     public class TransferCreatedEvent : Event
     {

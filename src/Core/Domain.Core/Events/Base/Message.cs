@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Core.Events
+namespace Domain.Core.Events.Base
 {
     public abstract class Message : IRequest<bool>
     {

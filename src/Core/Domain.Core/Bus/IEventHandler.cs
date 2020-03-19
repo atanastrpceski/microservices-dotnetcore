@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Domain.Core.Events;
+using Domain.Core.Events.Base;
 
 namespace Domain.Core.Bus
 {

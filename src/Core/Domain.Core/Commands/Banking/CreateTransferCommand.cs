@@ -1,9 +1,6 @@
-﻿using Domain.Core.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.Core.Commands.Base;
 
-namespace Banking.Domain.Commands
+namespace Domain.Core.Commands.Banking
 {
     public class CreateTransferCommand : Command
     {

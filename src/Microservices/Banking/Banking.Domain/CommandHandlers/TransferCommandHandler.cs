@@ -1,6 +1,6 @@
-﻿using Banking.Domain.Commands;
-using Banking.Domain.Events;
-using Domain.Core.Bus;
+﻿using Domain.Core.Bus;
+using Domain.Core.Commands.Banking;
+using Domain.Core.Events.Banking.Base;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

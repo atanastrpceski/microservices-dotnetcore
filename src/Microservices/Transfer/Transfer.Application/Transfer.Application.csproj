@@ -5,13 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="EventHandlers\" />
-    <Folder Include="Events\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Domain.Core\Domain.Core.csproj" />
+    <ProjectReference Include="..\Transfer.Domain\Transfer.Domain.csproj" />
   </ItemGroup>
 
 </Project>

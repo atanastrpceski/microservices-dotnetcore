@@ -1,14 +1,17 @@
-using Banking.Data.Context;
+using Domain.Core.Bus;
+using Domain.Core.Events.Banking.Base;
 using Infrastructure.IoC;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MediatR;
+using Transfer.Data.Context;
+using Transfer.Domain.EventHandlers;
 
-namespace Banking.Api
+namespace Trasnfer.Api
 {
     public class Startup
     {
@@ -22,15 +25,15 @@ namespace Banking.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BankingDBContext>(options =>
+            services.AddDbContext<TransferDBContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("BankingDbConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("TransferDbConnection"));
             });
 
             services.AddSwaggerGen(option => {
                 option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "Banking Microservice",
+                    Title = "Transfer Microservice",
                     Version = "v1"
                 });
             });
@@ -55,13 +58,21 @@ namespace Banking.Api
 
             app.UseSwagger();
             app.UseSwaggerUI(option => {
-                option.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking Microservice V1");
+                option.SwaggerEndpoint("/swagger/v1/swagger.json", "Transfer Microservice V1");
             });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            ConfigureEventBus(app);
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<TransferCreatedEvent, TransferCreatedEventHandler>();
         }
     }
 }

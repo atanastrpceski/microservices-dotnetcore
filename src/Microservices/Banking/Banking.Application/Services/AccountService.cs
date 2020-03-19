@@ -1,11 +1,9 @@
 ﻿using Banking.Application.Models;
-using Banking.Domain.Commands;
 using Banking.Domain.Interfaces;
 using Banking.Domain.Models;
 using Domain.Core.Bus;
-using System;
+using Domain.Core.Commands.Banking;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Banking.Application.Interfaces
 {

@@ -11,6 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Microservices\Banking\Banking.Application\Banking.Application.csproj" />
     <ProjectReference Include="..\..\Microservices\Banking\Banking.Data\Banking.Data.csproj" />
+    <ProjectReference Include="..\..\Microservices\Transfer\Transfer.Application\Transfer.Application.csproj" />
+    <ProjectReference Include="..\..\Microservices\Transfer\Transfer.Data\Transfer.Data.csproj" />
     <ProjectReference Include="..\Infrastructure.Bus\Infrastructure.Bus.csproj" />
   </ItemGroup>
 
