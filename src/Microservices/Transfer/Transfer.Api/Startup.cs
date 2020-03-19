@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Transfer.Api;
 using Transfer.Data.Context;
 using Transfer.Domain.EventHandlers;
 
@@ -41,7 +42,7 @@ namespace Trasnfer.Api
 
             services.AddControllers();
 
-            DependencyContainer.RegisterServices(services);
+            DependencyContainer.RegisterServices(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +67,7 @@ namespace Trasnfer.Api
                 endpoints.MapControllers();
             });
 
+            //SeedData.Initialize(app.ApplicationServices);
             ConfigureEventBus(app);
         }
 

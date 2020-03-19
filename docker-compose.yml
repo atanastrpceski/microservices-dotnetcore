@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  banking.api:
+    image: ${DOCKER_REGISTRY-}bankingapi
+    build:
+      context: .
+      dockerfile: src/Microservices/Banking/Banking.Api/Dockerfile
+    ports:
+        - "52238:52238"
+        
+  transfer.api:
+    image: ${DOCKER_REGISTRY-}transferapi
+    build:
+      context: .
+      dockerfile: src/Microservices/Transfer/Transfer.Api/Dockerfile
+    ports:
+        - "55163:55163"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server"
+    hostname: mssqlserver
+    container_name: mssql
+    ports:
+        - "1433:1433"
+    environment:
+        SA_PASSWORD: "p@sswr0rd"
+        ACCEPT_EULA: "Y"

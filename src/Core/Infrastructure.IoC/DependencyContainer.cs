@@ -8,6 +8,7 @@ using Domain.Core.Commands.Banking;
 using Domain.Core.Events.Banking.Base;
 using MediatR;
 using MicroRabbit.Infrastructure.Bus;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Transfer.Application.Interfaces;
 using Transfer.Data.Context;
@@ -19,8 +20,10 @@ namespace Infrastructure.IoC
 {
     public class DependencyContainer
     {
-        public static void RegisterServices(IServiceCollection services)
+        public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton<IConfiguration>(provider => configuration);
+
             // Commands
             services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();
 

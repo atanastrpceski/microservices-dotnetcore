@@ -13,6 +13,11 @@ namespace Transfer.Data.Context
         
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<TransferLog> TransferLogs { get; set; }
     }
 }
