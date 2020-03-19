@@ -2,7 +2,7 @@
 using Banking.Domain.Interfaces;
 using Banking.Domain.Models;
 using Domain.Core.Bus;
-using Domain.Core.Commands.Banking;
+using Domain.Core.Models;
 using System.Collections.Generic;
 
 namespace Banking.Application.Interfaces

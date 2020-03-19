@@ -1,6 +1,6 @@
-﻿using Domain.Core.Commands.Base;
+﻿using Domain.Core.Commands;
 using System.Threading.Tasks;
-using Domain.Core.Events.Base;
+using Domain.Core.Events;
 
 namespace Domain.Core.Bus
 {

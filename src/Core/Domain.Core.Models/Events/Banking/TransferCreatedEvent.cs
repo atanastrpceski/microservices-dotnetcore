@@ -1,6 +1,6 @@
-﻿using Domain.Core.Events.Base;
+﻿using Domain.Core.Events;
 
-namespace Domain.Core.Events.Banking.Base
+namespace Domain.Core.Models
 {
     public class TransferCreatedEvent : Event
     {

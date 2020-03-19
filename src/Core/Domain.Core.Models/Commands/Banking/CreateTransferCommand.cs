@@ -1,6 +1,6 @@
-﻿using Domain.Core.Commands.Base;
+﻿using Domain.Core.Commands;
 
-namespace Domain.Core.Commands.Banking
+namespace Domain.Core.Models
 {
     public class CreateTransferCommand : Command
     {

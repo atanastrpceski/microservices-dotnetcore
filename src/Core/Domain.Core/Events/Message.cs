@@ -1,9 +1,6 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Domain.Core.Events.Base
+namespace Domain.Core.Events
 {
     public abstract class Message : IRequest<bool>
     {

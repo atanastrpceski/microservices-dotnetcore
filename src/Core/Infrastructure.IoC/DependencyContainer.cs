@@ -4,8 +4,7 @@ using Banking.Data.Repository;
 using Banking.Domain.CommandHandlers;
 using Banking.Domain.Interfaces;
 using Domain.Core.Bus;
-using Domain.Core.Commands.Banking;
-using Domain.Core.Events.Banking.Base;
+using Domain.Core.Models;
 using MediatR;
 using MicroRabbit.Infrastructure.Bus;
 using Microsoft.Extensions.Configuration;
@@ -22,16 +21,17 @@ namespace Infrastructure.IoC
     {
         public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IConfiguration>(provider => configuration);
-
-            // Commands
-            services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();
-
-            // Events
-            services.AddTransient<IEventHandler<TransferCreatedEvent>, TransferCreatedEventHandler>();
-
-            // Domain Bus
-            services.AddTransient<IEventBus, RabbitMQBus>();
+            // Expose the config globally
+            services.AddSingleton(provider => configuration);
+            // Bus
+            services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
+            {
+                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
+                return new RabbitMQBus(sp.GetRequiredService<IMediator>(), scopeFactory);
+            });
+            // DB Context's
+            services.AddTransient<BankingDBContext>();
+            services.AddTransient<TransferDBContext>();
 
             // Repositories
             services.AddTransient<IAccountRepository, AccountRepository>();
@@ -41,9 +41,14 @@ namespace Infrastructure.IoC
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITransferService, TransferService>();
 
-            // DB Context's
-            services.AddTransient<BankingDBContext>();
-            services.AddTransient<TransferDBContext>();
+            // Commands
+            services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();
+
+            // Events
+            services.AddTransient<IEventHandler<TransferCreatedEvent>, TransferCreatedEventHandler>();
+
+            // Subscriptions
+            services.AddTransient<TransferCreatedEventHandler>();
         }
     }
 }

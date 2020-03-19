@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Bus;
-using Domain.Core.Commands.Base;
-using Domain.Core.Events.Base;
+using Domain.Core.Commands;
+using Domain.Core.Events;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -18,10 +19,12 @@ namespace MicroRabbit.Infrastructure.Bus
         private readonly IMediator _mediator;
         private readonly IDictionary<string, List<Type>> _handlers;
         private readonly IList<Type> _eventTypes;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public RabbitMQBus(IMediator mediator)
+        public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
         {
             _mediator = mediator;
+            _serviceScopeFactory = serviceScopeFactory;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
         }
@@ -85,18 +88,15 @@ namespace MicroRabbit.Infrastructure.Bus
                 DispatchConsumersAsync = true
             };
 
-            using (var connection = factory.CreateConnection())
-            {
-                using (var channel = connection.CreateModel())
-                {
-                    var eventName = typeof(T).Name;
-                    channel.QueueDeclare(eventName, false, false, false, null);
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
 
-                    var consumer = new AsyncEventingBasicConsumer(channel);
-                    consumer.Received += HandleConsumerReceived;
-                    channel.BasicConsume(eventName, true, consumer);
-                }
-            }
+            var eventName = typeof(T).Name;
+            channel.QueueDeclare(eventName, false, false, false, null);
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += HandleConsumerReceived; ;
+            channel.BasicConsume(eventName, true, consumer);
         }
 
         private async Task HandleConsumerReceived(object sender, BasicDeliverEventArgs e)
@@ -118,20 +118,24 @@ namespace MicroRabbit.Infrastructure.Bus
         {
             if (_handlers.ContainsKey(eventName))
             {
-                var subscriptions = _handlers[eventName];
-                foreach (var subscription in subscriptions)
+                using (var scope = _serviceScopeFactory.CreateScope())
                 {
-                    var handler = Activator.CreateInstance(subscription);
-                    if (handler == null)
-                        continue;
+                    var subscriptions = _handlers[eventName];
+                    foreach (var subscription in subscriptions)
+                    {
+                        var handler = scope.ServiceProvider.GetService(subscription);
 
-                    var eventType = _eventTypes.SingleOrDefault(t => t.Name == eventName);
+                        if (handler == null)
+                            continue;
 
-                    var @event = JsonConvert.DeserializeObject(message, eventType);
+                        var eventType = _eventTypes.SingleOrDefault(t => t.Name == eventName);
 
-                    var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
+                        var @event = JsonConvert.DeserializeObject(message, eventType);
 
-                    await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { @event }); 
+                        var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
+
+                        concreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
+                    }
                 }
             }
         }

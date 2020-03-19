@@ -63,6 +63,8 @@ namespace Banking.Api
             {
                 endpoints.MapControllers();
             });
+
+            //SeedData.Initialize(app.ApplicationServices);
         }
     }
 }

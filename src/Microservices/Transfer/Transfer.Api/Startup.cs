@@ -1,5 +1,5 @@
 using Domain.Core.Bus;
-using Domain.Core.Events.Banking.Base;
+using Domain.Core.Models;
 using Infrastructure.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Transfer.Api;
 using Transfer.Data.Context;
 using Transfer.Domain.EventHandlers;
 

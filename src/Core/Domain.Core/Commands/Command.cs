@@ -1,7 +1,7 @@
 ﻿using System;
-using Domain.Core.Events.Base;
+using Domain.Core.Events;
 
-namespace Domain.Core.Commands.Base
+namespace Domain.Core.Commands
 {
     public abstract class Command : Message
     {
