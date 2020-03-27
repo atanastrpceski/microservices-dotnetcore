@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>0123a7d4-d2ac-41c6-abb7-d009f0cc9f7a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger/index.html</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://{ServiceHost}:{ServicePort}/swagger/index.html</DockerServiceUrl>
   </PropertyGroup>
   <PropertyGroup>
     <DockerServiceName>banking.api</DockerServiceName>

@@ -1,6 +1,15 @@
 version: '3.4'
 
 services:
+
+  identity.server:
+    image: ${DOCKER_REGISTRY-}identityserver
+    build:
+      context: .
+      dockerfile: src/Microservices/Identity/Identity.Server/Dockerfile
+    ports:
+        - "50000:50000"
+
   banking.api:
     image: ${DOCKER_REGISTRY-}bankingapi
     build:
@@ -16,6 +25,12 @@ services:
       dockerfile: src/Microservices/Transfer/Transfer.Api/Dockerfile
     ports:
         - "55163:55163"
+
+  web:
+    image: ${DOCKER_REGISTRY-}web
+    build:
+      context: .
+      dockerfile: src/Microservices/WebFront/Web/Dockerfile
 
   rabbitmq:
     image: rabbitmq:3-management

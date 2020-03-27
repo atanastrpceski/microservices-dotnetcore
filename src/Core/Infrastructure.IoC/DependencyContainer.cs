@@ -4,6 +4,7 @@ using Banking.Data.Repository;
 using Banking.Domain.CommandHandlers;
 using Banking.Domain.Interfaces;
 using Domain.Core.Bus;
+using Domain.Core.Http;
 using Domain.Core.Models;
 using MediatR;
 using MicroRabbit.Infrastructure.Bus;
@@ -23,12 +24,14 @@ namespace Infrastructure.IoC
         {
             // Expose the config globally
             services.AddSingleton(provider => configuration);
+
             // Bus
             services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
             {
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
                 return new RabbitMQBus(sp.GetRequiredService<IMediator>(), scopeFactory);
             });
+
             // DB Context's
             services.AddTransient<BankingDBContext>();
             services.AddTransient<TransferDBContext>();
@@ -38,6 +41,7 @@ namespace Infrastructure.IoC
             services.AddTransient<ITransferRepository, TransferRepository>();
 
             // Services
+            services.AddTransient<IResilientHttpClient, ResilientHttpClient>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITransferService, TransferService>();
 
